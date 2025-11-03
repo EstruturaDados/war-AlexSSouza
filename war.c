@@ -28,17 +28,57 @@
 // Funções de interface com o usuário:
 // Funções de lógica principal do jogo:
 // Função utilitária:
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+#include <windows.h>
+
+#define MAX_TERRITORIOS 5
+
+typedef struct {
+    char nome[30];     // Nome do TERRITÓRIO
+    char cor[10];      // Cor do exército
+    int tropas;        // Quantidade de tropas
+} Territorio;
 
 // --- Função Principal (main) ---
 // Função principal que orquestra o fluxo do jogo, chamando as outras funções em ordem.
 int main() {
+    setlocale(LC_ALL, "Portuguese");
+    SetConsoleOutputCP(CP_UTF8);
     // 1. Configuração Inicial (Setup):
     // - Define o locale para português.
     // - Inicializa a semente para geração de números aleatórios com base no tempo atual.
     // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
     // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
     // - Define a cor do jogador e sorteia sua missão secreta.
+    Territorio territorios[MAX_TERRITORIOS]; // Vetor para armazenar os 5 TERRITÓRIOs
 
+    printf("=== CADASTRAR TERRITÓRIOS ===\n");
+        for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("\n'TERRITÓRIO' %d:\n", i + 1);
+
+        // Entrada do nome do TERRITÓRIO
+        printf("Digite o nome do TERRITÓRIO: ");
+        scanf(" %[^\n]", territorios[i].nome);  // Lê até a quebra de linha
+
+        // Entrada da cor do exército
+        printf("Digite a cor do exército: ");
+        scanf(" %[^\n]", territorios[i].cor);
+
+        // Entrada da quantidade de tropas
+        printf("Digite a quantidade de tropas: ");
+        scanf("%d", &territorios[i].tropas);
+    }
+        printf("\n=== TERRITÓRIOS REGISTRADOS ===\n");
+    for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("\nTERRITÓRIO %d:\n", i + 1);
+        printf("Nome: %s\n", territorios[i].nome);
+        printf("Cor do Exército: %s\n", territorios[i].cor);
+        printf("Tropas: %d\n", territorios[i].tropas);
+    }
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);  // Limpa o buffer 
     // 2. Laço Principal do Jogo (Game Loop):
     // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
     // - A cada iteração, exibe o mapa, a missão e o menu de ações.
